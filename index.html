@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://kit.fontawesome.com/d924a7553c.js" crossorigin="anonymous"></script>
+  <script src="js/script.js"></script>
+  <script>
+    function listarCandidatos() {
+      let form = document.getElementById("formCPFcandidato");
+      let validacao = validarCPF(form);
+      if (validacao == true) {
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("resposta").innerHTML = this.responseText;
+          }
+        }
+		xmlHttp.open("GET", "http://localhost/listarCandidatosCPF.php?cpf=" + form.CPF.value, true);
+        
+        xmlHttp.send();
+        console.log("requisição enviada");
+      }
+    }
+    function validarCPF(form) {
+      if (form.CPF.value === "") {
+        alert("Preencha o campo CPF");
+        form.CPF.focus();
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+
+<body>
+  <section>
+    <div>
+      
+      <h1>Concursos Públicos KeyFalls<br>XptoTec</h1>
+      <br><br><br>
+      <a class="home" href="cadastrarFiscal.html">Incluir Fiscal</a><br><br>
+      <a class="home" href="listarCandidatos.html">Listar Candidatos</a><br><br>
+      <a class="home" href="alterarSala.html">Alterar Sala</a><br><br>
+      <br>
+      <form action="" id="formCPFcandidato" class="formulario">
+        <label for="CPF">CPF do Candidato</label><input type="text" placeholder=""
+          name="CPF">
+        <input type="button" name="op" value="Pesquisar" class="btn" onclick="listarCandidatos()">
+      </form><br>
+    </div>
+    <div id="resposta"></div>
+  </section>
+</body>
+
+</html>

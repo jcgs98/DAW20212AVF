@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Incluir Fiscal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js"></script>
+  <script>
+    function cadastrarFiscal() {
+      let form = document.getElementById("formFiscais");
+      let validacao = validarFiscal(form);
+      if (validacao == true) {
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("resposta").innerHTML = this.responseText;
+          }
+        }        
+        xmlHttp.open("GET", "http://localhost/cadastrarFiscal.php?id=" + form.id.value +
+          "&cpf=" + form.cpf.value +
+          "&nome=" + form.nome.value +          
+          "&sala=" + form.sala.value, true);
+        xmlHttp.send();
+        console.log("requisição enviada");
+      }
+    }
+    function validarFiscal(form) {
+      if (form.id.value === "") {
+        alert("Preencha o campo CPF");
+        form.id.focus();
+        return false;
+      }
+      if (form.nome.value === "") {
+        alert("Preencha o campo Nome");
+        form.nome.focus();
+        return false;
+      }
+      if (form.cpf.value === "") {
+        alert("Preencha o campo Identidade");
+        form.cpf.focus();
+        return false;
+      }
+      
+      if (form.sala.value === "") {
+        alert("Preencha o campo Sala de Trabalho");
+        form.sala.focus();
+        return false;
+      }
+      
+      return true;
+    }
+  </script>
+</head>
+
+<body>
+  <header id="header">
+    <!--MENU-->
+    <nav class="nav" id="nav">
+      <ul class="lista">
+        <li><a class="btnMenu" id="home" href="index.html">Início</a></li>
+        <li><a class="btnMenu active" href="cadastrarFiscal.html">Incluir Fiscal</a></li>
+        <li><a class="btnMenu" href="listarCandidatos.html">Listar Candidatos</a></li>
+        <li><a class="btnMenu" href="alterarSala.html">Alterar Sala</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section>
+
+    <form action="" method="GET" name="Fiscais" class="formulario" id="formFiscais">
+      <h1>Incluir Fiscal</h1>
+      <div class="form">
+        <label>CPF: <input placeholder="CPF do Fiscal" type="text" name="cpf"></label><br>
+        <label>Identidade: <input placeholder="Identidade do Fiscal" type="text"
+            name="id"></label><br>
+        <label>Nome: <input placeholder="Nome do Fiscal" type="text" name="nome"></label><br>
+        
+        <label>Sala: <input placeholder="Sala de trabalho" type="text" name="sala"></label><br>
+        
+        </label></select><br><br>
+      </div>
+      <input class="btn" type="button" name="op" value="Incluir" onclick="cadastrarFiscal()">
+    </form>
+    <div id="resposta"></div>
+  </section>
+</body>
+
+</html>
