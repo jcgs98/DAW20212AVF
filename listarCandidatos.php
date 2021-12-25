@@ -1,43 +1,34 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     include 'conexao.php';
+
+
+$result = mysqli_query($conn,"SELECT * FROM candidatos WHERE 1=1 order by sala,nome desc");
     
-      $sql = "SELECT * FROM candidatos WHERE 1=1";
-
-      $result = $conn->query($sql);
-
-      if($result) {
-        $candidato = $result->fetch_assoc();
-        $cpf = $candidato["cpf"];
-		$id = $candidato["id"];
-        $nome = $candidato["nome"];
-        $email = $candidato["email"];
-        $cargo = $candidato["cargo"];
-        $sala = $candidato["sala"];        
-        
-        $alterar = "./alterarcandidato.html?id={$id}" . "&cpf=${cpf}" . "&nome=${nome}" . "&email=${email}" . "&cargo=${cargo}" . "&sala=${sala}" ;
-            
-        if ($candidato["id"] != 0) {
-          echo "<table>";          
+      
+echo "<table>";          
           echo "<thead>";
           echo "<tr>";
           echo "<th>CPF</th><th>Nome</th><th>Cargo</th><th>E-mail</th><th>Sala</th>";
           echo "</tr>";
           echo "</thead>";
+
+      if($result) {
+        
+          
           echo "<tr>";
-          echo "<td>{$cpf}</td>";
-          echo "<td>{$nome}</td>";
-          echo "<td>{$cargo}</td>";
-          echo "<td>{$email}</td>";
-          echo "<td>{$sala}</td>";
-          echo "<td><span class='table'><a href=\"{$alterar}\"><button>Alterar</button></a></span></td>";
+		  while($row = mysqli_fetch_array($result)){
+			echo "<tr>";
+          echo "<td>".$row['cpf']."</td>";
+          echo "<td>".$row['nome']."</td>";
+          echo "<td>".$row['cargo']."</td>";
+          echo "<td>".$row['email']."</td>";
+          echo "<td>".$row['sala']."</td><br>";
+		  echo "</tr>";
+          }
           echo "</tr>"; 
           echo "</table>";   
-        } 
-      } else {
-          echo "Erro ao buscar candidato.";
-        }
-    } else {
-        echo "Candidatos Inexistentes.";
-      }
+	  }
+	  
+}
 ?>

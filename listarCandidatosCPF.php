@@ -37,7 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $cargo = $candidato["cargo"];
         $sala = $candidato["sala"];        
         
-        $alterar = "./alterarcandidato.html?id={$id}" . "&cpf=${cpf}" . "&nome=${nome}" . "&email=${email}" . "&cargo=${cargo}" . "&sala=${sala}" ;
+        $alterar = "./alterarSalaCandidato.html?id={$id}" . "&cpf=${cpf}" . "&nome=${nome}" . "&email=${email}" . "&cargo=${cargo}" . "&sala=${sala}" ;
+
             
         if ($candidato["id"] != 0) {
           echo "<table>";          
