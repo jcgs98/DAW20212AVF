@@ -22,7 +22,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         return 0;
     }
     return 1;
+	
 }
+
+function validarSalaExiste($sala, $conn) {
+    $sqlID = "SELECT sala FROM candidatos WHERE sala = $sala";
+    $result = $conn->query($sqlID);
+
+    if ($result->num_rows > 0) {
+        return 0;
+    }
+    return 1;
+	
+}
+
   function validarCPFDuplicado($cpf, $conn) {
     $sqlCod = "SELECT cpf FROM fiscais WHERE cpf = $cpf";
     $result = $conn->query($sqlCod);
@@ -48,6 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "CPF já existe!<br><br>";
 	} elseif(validarSalaFiscais($sala, $conn) == 1) {
     echo "Sala Cheia!<br><br>";
+	} elseif(validarSalaExiste($sala, $conn) == 1) {
+    echo "Sala Não Existe!<br><br>";
   } else {
       $sql = "Insert into fiscais (`id`, `cpf`, `nome`, `sala`) VALUES ('$id', '$cpf', '$nome', '$sala')";
     }
