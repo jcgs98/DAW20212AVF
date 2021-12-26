@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Alterar Sala do Candidato</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js"></script>
+  <script>
+    function preencherForm() {
+      const entForm = [...event.target.forms[0]].filter(() => name !== 'button');
+
+      const valForm = new URLSearchParams(window.location.search);
+
+      for (i = 0; i < 13; i++) {
+        entForm[i].value = valForm.get(entForm[i].name);
+      }
+    }
+    function alterarSalaCandidato() {
+      let form = document.getElementById("formSalaCandidatos");
+      let validacao = validarSalaCandidato(form);
+      if (validacao == true) {
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("resposta").innerHTML = this.responseText;
+          }
+        }
+        
+        xmlHttp.open("GET", "http://localhost/alterarSalaCandidato.php?id=" + form.id.value +
+          "&cpf=" + form.cpf.value +
+          "&nome=" + form.nome.value +
+          "&email=" + form.email.value +          
+		  "&sala=" + form.sala.value +
+          "&salaN=" + form.salaN.value, true);
+        xmlHttp.send();
+        console.log("requisição enviada");
+      }
+    }
+    function validarSalaCandidato(form) {
+      if (form.id.value === "") {
+        alert("Preencha o campo ID");
+        form.id.focus();
+        return false;
+      }
+      if (form.nome.value === "") {
+        alert("Preencha o campo Nome");
+        form.nome.focus();
+        return false;
+      }
+      if (form.cpf.value === "") {
+        alert("Preencha o campo CPF");
+        form.cpf.focus();
+        return false;
+      }
+      if (form.email.value === "") {
+        alert("Preencha o campo email");
+        form.email.focus();
+        return false;
+      }
+      
+      if (form.salaN.value === "") {
+        alert("Preencha o campo Nova Sala ou volte");
+        form.sala.focus();
+        return false;
+      }
+      
+      if (form.cargo.value === "") {
+        alert("Preencha o campo Cargo");
+        form.cargo.focus();
+        return false;
+      }
+      
+      return true;
+    }
+  </script>
+</head>
+
+<body onload="preencherForm()">
+  <header id="header">
+    <!--MENU-->
+    <nav class="nav" id="nav">
+      <ul class="lista">
+        <li><a class="btnMenu" id="home" href="index.html">Início</a></li>        
+      </ul>
+    </nav>
+  </header>
+  <section>
+    <form action="" method="GET" name="SalasCandidatos" class="formulario" id="formSalaCandidatos">
+      <h1>Alterar Sala de Candidato</h1>
+      <div class="form">
+        <label>ID: <input type="text" name="id"></label><br>
+        <label>CPF: <input type="text" name="cpf"></label><br>
+        <label>Nome: <input type="text" name="nome"></label><br>
+        <label>email: <input type="text" name="email"></label><br>
+		<label>cargo: <input type="text" name="cargo"></label><br>
+		<label>Sala: <input type="text" name="sala"></label><br>
+        <label>Nova Sala: <input type="text" name="salaN"></label><br>
+        
+		
+		
+      </div>
+      <input type="button" name="op"  value="Alterar Sala" class="btn" onclick="alterarSalaCandidato()">
+    </form>
+    <div id="resposta"></div>
+  </section>
+</body>
+
+
+</html>
