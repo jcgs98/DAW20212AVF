@@ -9,16 +9,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $sala = $_GET["sala"];
   $salaN = $_GET["salaN"];
   
-  
- $sql = "UPDATE candidatos SET `sala`='$salaN' WHERE `id`=$id";
-  
 
-  $result = $conn->query($sql);
+$sq2 = "SELECT `sala` FROM candidatos WHERE `sala`=$salaN"; 
+$result2 = $conn->query($sq2);
 
-  if($result) {
-    echo "Sala do candidato $nome alterada com sucesso para $salaN.";
-  } else {
-      echo "Erro ao alterar sala.";
-    }  
+if($result2 ->num_rows > 0) {
+    echo "Sala Existe.";
+		if($result2 ->num_rows > 49) {
+			echo "Sala Cheia, tente outra.";
+		} else {
+		
+	$sql = "UPDATE candidatos SET `sala`='$salaN' WHERE `id`=$id";
+	
+	$result = $conn->query($sql);
+	
+	if($result) {
+		echo "Sala do candidato $nome alterada com sucesso para $salaN.";
+	  } else {
+		  echo "Erro ao alterar sala.";
+		}
+		}
 }
+else {
+echo "Sala Não Existe. Tente Outra!";}
+}
+
 ?>
